@@ -1,40 +1,32 @@
 package com.thaddeustuck.bookstorevaluationservice.Valuation.repository;
 
-import ch.qos.logback.core.net.server.Client;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.thaddeustuck.bookstorevaluationservice.Valuation.config.ConfigProperties;
 import com.thaddeustuck.bookstorevaluationservice.Valuation.models.Book;
 import com.thaddeustuck.bookstorevaluationservice.Valuation.models.InventoryRecord;
 import com.thaddeustuck.bookstorevaluationservice.Valuation.models.Valuation;
+import com.thaddeustuck.bookstorevaluationservice.Valuation.models.ValuationRecord;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import org.springframework.stereotype.Repository;
+
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.thaddeustuck.bookstorevaluationservice.Valuation.models.ValuationRecord;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.thymeleaf.util.ArrayUtils;
-
 
 @Repository
 public class ValuationRepository {
-    @Autowired
-    private ConfigProperties configProp;
+    final
+    ConfigProperties configProp;
 
     public ValuationRepository(){
+        this.configProp = new ConfigProperties();
     }
 
 
@@ -48,7 +40,9 @@ public class ValuationRepository {
     private Map<Integer,Book> getBooks(){
         Map<Integer,Book> booksByUPC = new HashMap<>();
 
-        String bookURL= configProp.getConfigValue("books-service-url");
+        //TODO: This stopped working need to reevaluate configuration methodology.
+        //String bookURL= configProp.getConfigValue("books-service-url");
+        String bookURL= "http://localhost:8080/books";
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
             HttpGet request = new HttpGet(bookURL);
             request.addHeader("content-type", "application/json");
@@ -70,7 +64,9 @@ public class ValuationRepository {
     private Map<Integer, InventoryRecord> getInventoryRecords() {
         Map<Integer,InventoryRecord> inventoryRecordsByUPC = new HashMap<>();
 
-        String inventoryURL= configProp.getConfigValue("inventory-service-url");
+        //TODO: This stopped working need to reevaluate configuration methodology.
+        //String inventoryURL= configProp.getConfigValue("inventory-service-url");
+        String inventoryURL= "http://localhost:8081/inventory";
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
             HttpGet request = new HttpGet(inventoryURL);
             request.addHeader("content-type", "application/json");
