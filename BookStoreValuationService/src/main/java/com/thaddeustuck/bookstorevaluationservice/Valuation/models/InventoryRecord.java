@@ -5,6 +5,13 @@ public class InventoryRecord {
     private Integer quantity;
     private Integer version;
 
+    public InventoryRecord(Integer upc, Integer quantity, Integer version){
+        this.upc = upc;
+        this.quantity = quantity;
+        this.version = version;
+    }
+
+
     // Getter Methods
     public Integer getUpc() {
         return upc;

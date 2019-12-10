@@ -1,0 +1,10 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+BookStoreValuationService,com.thaddeustuck.bookstorevaluationservice.Valuation.config,ConfigProperties,8,0,0,0,2,0,2,0,2,0
+BookStoreValuationService,com.thaddeustuck.bookstorevaluationservice.Valuation.config,Swagger2Config,41,0,0,0,13,0,3,0,3,0
+BookStoreValuationService,com.thaddeustuck.bookstorevaluationservice.Valuation.repository,ValuationRepository,156,99,5,3,33,19,6,3,3,2
+BookStoreValuationService,com.thaddeustuck.bookstorevaluationservice,BookStoreValuationServiceApplication,8,0,0,0,3,0,2,0,2,0
+BookStoreValuationService,com.thaddeustuck.bookstorevaluationservice.Valuation.controller,ValuationController,14,0,0,0,4,0,2,0,2,0
+BookStoreValuationService,com.thaddeustuck.bookstorevaluationservice.Valuation.models,Book,29,24,0,0,13,9,8,3,8,3
+BookStoreValuationService,com.thaddeustuck.bookstorevaluationservice.Valuation.models,InventoryRecord,18,15,0,0,8,6,5,2,5,2
+BookStoreValuationService,com.thaddeustuck.bookstorevaluationservice.Valuation.models,Valuation,0,21,0,0,0,8,0,4,0,4
+BookStoreValuationService,com.thaddeustuck.bookstorevaluationservice.Valuation.models,ValuationRecord,11,26,0,0,5,11,3,6,3,6

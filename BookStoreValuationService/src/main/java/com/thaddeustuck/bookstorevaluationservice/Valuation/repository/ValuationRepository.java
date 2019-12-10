@@ -89,7 +89,7 @@ public class ValuationRepository {
         return inventoryRecordsByUPC;
     }
 
-    private Valuation calculateValuation(Map<Integer,Book> books, Map<Integer,InventoryRecord> inventoryRecords){
+    public Valuation calculateValuation(Map<Integer,Book> books, Map<Integer,InventoryRecord> inventoryRecords){
         Integer totalQuantity = 0;
         Double totalValue = 0.0;
         List<ValuationRecord> valuationRecords = new ArrayList<>();

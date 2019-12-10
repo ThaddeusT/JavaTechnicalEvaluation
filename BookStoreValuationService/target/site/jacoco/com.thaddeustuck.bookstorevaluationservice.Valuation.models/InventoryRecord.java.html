@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InventoryRecord.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">BookStoreValuationService</a> &gt; <a href="index.source.html" class="el_package">com.thaddeustuck.bookstorevaluationservice.Valuation.models</a> &gt; <span class="el_source">InventoryRecord.java</span></div><h1>InventoryRecord.java</h1><pre class="source lang-java linenums">package com.thaddeustuck.bookstorevaluationservice.Valuation.models;
+
+public class InventoryRecord {
+    private Integer upc;
+    private Integer quantity;
+    private Integer version;
+
+<span class="fc" id="L8">    public InventoryRecord(Integer upc, Integer quantity, Integer version){</span>
+<span class="fc" id="L9">        this.upc = upc;</span>
+<span class="fc" id="L10">        this.quantity = quantity;</span>
+<span class="fc" id="L11">        this.version = version;</span>
+<span class="fc" id="L12">    }</span>
+
+
+    // Getter Methods
+    public Integer getUpc() {
+<span class="nc" id="L17">        return upc;</span>
+    }
+
+    public Integer getQuantity() {
+<span class="fc" id="L21">        return quantity;</span>
+    }
+
+    public Integer getVersion() {
+<span class="nc" id="L25">        return version;</span>
+    }
+
+    // Setter Methods
+    public void setUpc(Integer upc) {
+<span class="nc" id="L30">        this.upc = upc;</span>
+<span class="nc" id="L31">    }</span>
+
+    public void setQuantity(Integer quantity) {
+<span class="nc" id="L34">        this.quantity = quantity;</span>
+<span class="nc" id="L35">    }</span>
+
+    public void setVersion(Integer version) {
+<span class="nc" id="L38">        this.version = version;</span>
+<span class="nc" id="L39">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

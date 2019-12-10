@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValuationRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">BookStoreValuationService</a> &gt; <a href="index.source.html" class="el_package">com.thaddeustuck.bookstorevaluationservice.Valuation.repository</a> &gt; <span class="el_source">ValuationRepository.java</span></div><h1>ValuationRepository.java</h1><pre class="source lang-java linenums">package com.thaddeustuck.bookstorevaluationservice.Valuation.repository;
+
+import ch.qos.logback.core.net.server.Client;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.thaddeustuck.bookstorevaluationservice.Valuation.config.ConfigProperties;
+import com.thaddeustuck.bookstorevaluationservice.Valuation.models.Book;
+import com.thaddeustuck.bookstorevaluationservice.Valuation.models.InventoryRecord;
+import com.thaddeustuck.bookstorevaluationservice.Valuation.models.Valuation;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.thaddeustuck.bookstorevaluationservice.Valuation.models.ValuationRecord;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.thymeleaf.util.ArrayUtils;
+
+
+@Repository
+public class ValuationRepository {
+    @Autowired
+    private ConfigProperties configProp;
+
+<span class="fc" id="L37">    public ValuationRepository(){</span>
+<span class="fc" id="L38">    }</span>
+
+
+    public Valuation calculateAllItemValuation(){
+<span class="nc" id="L42">        Map&lt;Integer,Book&gt; books = getBooks();</span>
+<span class="nc" id="L43">        Map&lt;Integer,InventoryRecord&gt; inventoryRecords = getInventoryRecords();</span>
+
+<span class="nc" id="L45">        return calculateValuation(books,inventoryRecords);</span>
+    }
+
+    private Map&lt;Integer,Book&gt; getBooks(){
+<span class="nc" id="L49">        Map&lt;Integer,Book&gt; booksByUPC = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L51">        String bookURL= configProp.getConfigValue(&quot;books-service-url&quot;);</span>
+<span class="nc" id="L52">        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {</span>
+<span class="nc" id="L53">            HttpGet request = new HttpGet(bookURL);</span>
+<span class="nc" id="L54">            request.addHeader(&quot;content-type&quot;, &quot;application/json&quot;);</span>
+<span class="nc" id="L55">            HttpResponse result = httpClient.execute(request);</span>
+
+<span class="nc" id="L57">            String json = EntityUtils.toString(result.getEntity(), &quot;UTF-8&quot;);</span>
+<span class="nc" id="L58">            Gson gson = new Gson();</span>
+<span class="nc" id="L59">            Book[] books = gson.fromJson(json, Book[].class);</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">            for(Book book : books){</span>
+<span class="nc" id="L62">                booksByUPC.put(book.getUpc(), book);</span>
+            }
+        }
+<span class="nc" id="L65">        catch (IOException ex) {</span>
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">        return booksByUPC;</span>
+    }
+
+    private Map&lt;Integer, InventoryRecord&gt; getInventoryRecords() {
+<span class="nc" id="L71">        Map&lt;Integer,InventoryRecord&gt; inventoryRecordsByUPC = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L73">        String inventoryURL= configProp.getConfigValue(&quot;inventory-service-url&quot;);</span>
+<span class="nc" id="L74">        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {</span>
+<span class="nc" id="L75">            HttpGet request = new HttpGet(inventoryURL);</span>
+<span class="nc" id="L76">            request.addHeader(&quot;content-type&quot;, &quot;application/json&quot;);</span>
+<span class="nc" id="L77">            HttpResponse result = httpClient.execute(request);</span>
+
+<span class="nc" id="L79">            String json = EntityUtils.toString(result.getEntity(), &quot;UTF-8&quot;);</span>
+<span class="nc" id="L80">            Gson gson = new Gson();</span>
+<span class="nc" id="L81">            InventoryRecord[] inventoryRecords = gson.fromJson(json, InventoryRecord[].class);</span>
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            for(InventoryRecord inventoryRecord : inventoryRecords){</span>
+<span class="nc" id="L84">                inventoryRecordsByUPC.put(inventoryRecord.getUpc(), inventoryRecord);</span>
+            }
+        }
+<span class="nc" id="L87">        catch (IOException ex) {</span>
+<span class="nc" id="L88">        }</span>
+<span class="nc" id="L89">        return inventoryRecordsByUPC;</span>
+    }
+
+    public Valuation calculateValuation(Map&lt;Integer,Book&gt; books, Map&lt;Integer,InventoryRecord&gt; inventoryRecords){
+<span class="fc" id="L93">        Integer totalQuantity = 0;</span>
+<span class="fc" id="L94">        Double totalValue = 0.0;</span>
+<span class="fc" id="L95">        List&lt;ValuationRecord&gt; valuationRecords = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        for (Map.Entry&lt;Integer, Book&gt; entry : books.entrySet()) {</span>
+<span class="fc" id="L97">            Book book = entry.getValue();</span>
+<span class="fc" id="L98">            ValuationRecord valuationRecord = new ValuationRecord(book.getUpc(),book.getPrice());</span>
+<span class="fc" id="L99">            InventoryRecord inventoryRecord = inventoryRecords.getOrDefault(entry.getKey(),null);</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">            if(inventoryRecord ==  null){</span>
+<span class="nc" id="L101">                valuationRecord.setQuantity(0);</span>
+<span class="nc" id="L102">                valuationRecord.setValuation(0.0);</span>
+            }
+            else{
+<span class="fc" id="L105">                valuationRecord.setQuantity(inventoryRecord.getQuantity());</span>
+<span class="fc" id="L106">                totalQuantity += inventoryRecord.getQuantity();</span>
+
+<span class="fc" id="L108">                valuationRecord.setValuation(valuationRecord.getPrice()*valuationRecord.getQuantity());</span>
+<span class="fc" id="L109">                totalValue += valuationRecord.getValuation();</span>
+
+<span class="fc" id="L111">                valuationRecords.add(valuationRecord);</span>
+            }
+<span class="fc" id="L113">        }</span>
+<span class="fc" id="L114">        ValuationRecord[] valuations = new ValuationRecord[valuationRecords.size()];</span>
+<span class="fc" id="L115">        Valuation valuation = new Valuation(valuationRecords.toArray(valuations),totalQuantity,totalValue);</span>
+<span class="fc" id="L116">        return valuation;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

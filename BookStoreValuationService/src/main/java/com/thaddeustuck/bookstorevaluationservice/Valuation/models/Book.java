@@ -7,6 +7,14 @@ public class Book {
     private String description;
     private Double price;
 
+    public Book(Integer upc, String title, String author, String description, Double price){
+        this.upc = upc;
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.price = price;
+    }
+
     // Getter Methods
 
     public Integer getUpc() {
